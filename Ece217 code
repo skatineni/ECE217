@@ -1,0 +1,39 @@
+// current meter
+// We has 10mv per amp shunt amplified to 500mv per amp by OP-amp non-inverting confg. Rf=49, Rin= 1k 
+// Now 0.5v= 1A,so we changed the output as current/2, which gives 0.5v as 0.5amp
+// Resolution
+
+#include <Wire.h> 
+#include <LiquidCrystal_I2C.h>
+int analogPin=1;
+float current = 0;
+
+LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x27 for a 16 chars and 2 line display
+
+void setup()
+{
+  lcd.init();                      // initialize the lcd 
+  lcd.init();
+  // Print a message to the LCD.
+  lcd.backlight();
+ 
+}
+void loop()
+{
+  float c= analogRead(analogPin);
+  current= c/1023*5.0;
+  if (current<0.5)
+  {
+   lcd.setCursor(1,0);
+   lcd.print("Current=");
+   lcd.setCursor(4,1);
+   lcd.print(current*1.1);
+  delay(500);  
+}
+else{
+      lcd.setCursor(1,0);
+   lcd.print("Current=");
+   lcd.setCursor(4,1);
+   lcd.print(current);
+  delay(500);  
+}} 
